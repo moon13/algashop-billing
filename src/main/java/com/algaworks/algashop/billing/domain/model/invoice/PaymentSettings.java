@@ -1,6 +1,7 @@
 package com.algaworks.algashop.billing.domain.model.invoice;
 
 
+import com.algaworks.algashop.billing.domain.model.IdGenerator;
 import lombok.*;
 
 import java.util.UUID;
@@ -9,6 +10,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class PaymentSettings {
 
     @EqualsAndHashCode.Include
@@ -18,5 +20,14 @@ public class PaymentSettings {
     private PaymentMethod paymentMethod;
 
 
+    public static PaymentSettings brandNew(PaymentMethod method, UUID creditCard) {
+        return new PaymentSettings(
+                IdGenerator.generateTimeBasedUUID(),
+                creditCard,
+                null,
+                method
 
+        );
+
+    }
 }

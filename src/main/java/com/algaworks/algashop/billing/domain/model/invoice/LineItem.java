@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @EqualsAndHashCode
 public class LineItem {
 

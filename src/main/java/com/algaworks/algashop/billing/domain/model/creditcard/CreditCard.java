@@ -1,6 +1,8 @@
 package com.algaworks.algashop.billing.domain.model.creditcard;
 
 
+import com.algaworks.algashop.billing.domain.model.IdGenerator;
+import com.algaworks.algashop.billing.domain.model.invoice.PaymentMethod;
 import lombok.*;
 
 import java.time.OffsetDateTime;
@@ -10,6 +12,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class CreditCard {
 
      @EqualsAndHashCode.Include
@@ -24,4 +27,20 @@ public class CreditCard {
 
      @Setter(AccessLevel.PUBLIC)
      private String gatewayCode;
+
+     public static CreditCard brandNew(UUID customerId, String lastNumbers,
+                                       String brand, Integer expMonth,
+                                       Integer expYear, String gatewayCode) {
+
+          return new CreditCard(
+                  IdGenerator.generateTimeBasedUUID(),
+                  OffsetDateTime.now(),
+                  customerId,
+                  lastNumbers,
+                  brand,
+                  expMonth,
+                  expYear,
+                  gatewayCode
+          );
+     }
 }
