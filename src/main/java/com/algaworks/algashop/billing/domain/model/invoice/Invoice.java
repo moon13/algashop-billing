@@ -1,5 +1,6 @@
 package com.algaworks.algashop.billing.domain.model.invoice;
 
+import com.algaworks.algashop.billing.domain.model.DomainException;
 import com.algaworks.algashop.billing.domain.model.IdGenerator;
 import lombok.*;
 
@@ -65,21 +66,55 @@ public class Invoice {
 
      }
 
-     public void markAsPaid() {
-
+     public boolean isCanceled(){
+         return InvoiceStatus.CANCELED.equals(this.status);
      }
 
-      public void cancel() {
 
+    public boolean isUnpaid(){
+        return InvoiceStatus.UNPAID.equals(this.status);
+    }
+
+
+    public boolean isPaid(){
+        return InvoiceStatus.PAID.equals(this.status);
+    }
+
+     public void markAsPaid() {
+          if(!this.isUnpaid()){
+              throw new DomainException(String.format("Invoice %s with status %s cannot be marked as paid",
+                      this.getId(),this.getStatus().toString().toLowerCase()));
+          }
+
+          setPaidAt(OffsetDateTime.now());
+          setStatus(InvoiceStatus.PAID);
+     }
+
+      public void cancel(String cancelReason) {
+             if (this.isCanceled()){
+                 throw new DomainException(String.format("Invoice %s is already canceled ", this.getId()));
+             }
+            setCancelReason(cancelReason);
+            setCanceledAt(OffsetDateTime.now());
+            setStatus(InvoiceStatus.CANCELED);
 
       }
 
       public void assignPaymentGatewayCode(String code) {
 
+           if(!this.isUnpaid()){
+               throw new DomainException(String.format("Invoice %s with status %s cannot be edited ",
+                       this.getId(), this.getStatus().toString().toLowerCase()));
+           }
+            this.getPaymentSettings().assignGatewayCode(code);
 
      }
 
       public void changePaymentSettings(PaymentMethod method, UUID creditCard) {
+          if(!this.isUnpaid()){
+              throw new DomainException(String.format("Invoice %s with status %s cannot be edited ",
+                      this.getId(), this.getStatus().toString().toLowerCase()));
+          }
             PaymentSettings paymentSettings = PaymentSettings.brandNew(method,creditCard);
             this.setPaymentSettings(paymentSettings);
       }
