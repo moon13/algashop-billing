@@ -71,7 +71,7 @@ class InvoiceTest {
                         emptyItems));
     }
 
-    @Test //PAREI AQUI
+    @Test
     public void shouldChangePaymentSettingsWhenUnpaid() {
         Invoice invoice = InvoiceTestDataBuilder.anInvoice().build();
         UUID creditCardId = UUID.randomUUID();
