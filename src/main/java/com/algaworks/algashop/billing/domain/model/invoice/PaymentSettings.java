@@ -3,6 +3,7 @@ package com.algaworks.algashop.billing.domain.model.invoice;
 
 import com.algaworks.algashop.billing.domain.model.DomainException;
 import com.algaworks.algashop.billing.domain.model.IdGenerator;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.util.StringUtils;
 
@@ -17,11 +18,17 @@ import java.util.UUID;
 public class PaymentSettings {
 
     @EqualsAndHashCode.Include
-     private UUID id;
+    private UUID id;
     private UUID creditCardId;
     private String gatewayCode;
+
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
+    @OneToOne(mappedBy = "paymentSettings")
+    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.PACKAGE)
+    private Invoice invoice;
 
     public static PaymentSettings brandNew(PaymentMethod method, UUID creditCard) {
         Objects.requireNonNull(method);
@@ -32,7 +39,8 @@ public class PaymentSettings {
                 IdGenerator.generateTimeBasedUUID(),
                 creditCard,
                 null,
-                method
+                method,
+                null
 
         );
 
