@@ -15,8 +15,10 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class PaymentSettings {
 
+    @Id
     @EqualsAndHashCode.Include
     private UUID id;
     private UUID creditCardId;
