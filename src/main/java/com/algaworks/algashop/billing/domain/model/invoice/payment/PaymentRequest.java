@@ -20,14 +20,17 @@ public class PaymentRequest {
     private UUID creditCardId;
     private Payer payer;
 
-     //PAREI EM 08:19
     public PaymentRequest(PaymentMethod method, BigDecimal amount, UUID invoiceId,
                           UUID creditCardId, Payer payer) {
         Objects.requireNonNull(method);
         Objects.requireNonNull(amount);
         Objects.requireNonNull(invoiceId);
-        Objects.requireNonNull(creditCardId);
         Objects.requireNonNull(payer);
+
+        if(method.equals(PaymentMethod.CREDIT_CARD)) {
+            Objects.requireNonNull(creditCardId);
+        }
+
         this.method = method;
         this.amount = amount;
         this.invoiceId = invoiceId;
