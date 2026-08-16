@@ -1,6 +1,6 @@
 package com.algaworks.algashop.billing.domain.model.invoice;
 
-import com.algaworks.algashop.billing.domain.model.DomainException;
+import com.algaworks.algashop.billing.domain.model.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
