@@ -1,6 +1,8 @@
 package com.algaworks.algashop.billing.application.invoice.management;
 
 
+import com.algaworks.algashop.billing.domain.model.DomainException;
+import com.algaworks.algashop.billing.domain.model.creditcard.CreditCard;
 import com.algaworks.algashop.billing.domain.model.creditcard.CreditCardNotFoundException;
 import com.algaworks.algashop.billing.domain.model.creditcard.CreditCardRepository;
 import com.algaworks.algashop.billing.domain.model.invoice.*;

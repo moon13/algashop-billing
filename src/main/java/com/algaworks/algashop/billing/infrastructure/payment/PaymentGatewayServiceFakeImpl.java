@@ -5,9 +5,11 @@ import com.algaworks.algashop.billing.domain.model.invoice.payment.Payment;
 import com.algaworks.algashop.billing.domain.model.invoice.payment.PaymentGatewayService;
 import com.algaworks.algashop.billing.domain.model.invoice.payment.PaymentRequest;
 import com.algaworks.algashop.billing.domain.model.invoice.payment.PaymentStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class PaymentGatewayServiceFakeImpl implements PaymentGatewayService {
 
 
