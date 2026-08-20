@@ -48,7 +48,7 @@ public class InvoiceManagementApplicationService {
         PaymentRequest paymentRequest = toPaymentRequest(invoice);
         Payment payment = null;
         try {
-            paymentGatewayService.capture(paymentRequest);
+            payment =  paymentGatewayService.capture(paymentRequest);
         } catch (Exception e) {
             String errorMessage = "Payment capture failed";
             log.error(errorMessage,e);
