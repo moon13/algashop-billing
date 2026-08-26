@@ -57,6 +57,7 @@ public class InvoiceManagementApplicationService {
             return;
         }
         invoicingService.assignPayment(invoice,payment);
+        invoiceRepository.saveAndFlush(invoice);
 
     }
 

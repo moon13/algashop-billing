@@ -122,7 +122,7 @@ class InvoiceManagementApplicationServiceIT {
               Mockito.verify(paymentGatewayService).capture(Mockito.any(PaymentRequest.class));
               Mockito.verify(invoicingService).assignPayment(Mockito.any(Invoice.class),Mockito.any(Payment.class));
 
-            Mockito.verify(invoiceEventListener).listen(Mockito.any(InvoicePaidEvent.class));
+              Mockito.verify(invoiceEventListener).listen(Mockito.any(InvoicePaidEvent.class));
       }
 
 }
