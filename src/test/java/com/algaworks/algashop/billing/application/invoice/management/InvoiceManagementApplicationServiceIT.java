@@ -99,8 +99,11 @@ class InvoiceManagementApplicationServiceIT {
             Mockito.verify(invoicingService).issue(any(), any(), any(), any());
       }
 
+
+
+
       @Test
-      public void shouldProcessInvoicePayment(){
+      public void shouldProcessInvoicePaymentAndCancelInvoice(){
             Invoice invoice = InvoiceTestDataBuilder.anInvoice().build();
             invoice.changePaymentSettings(PaymentMethod.GATEWAY_BALANCE,null);
             invoiceRepository.saveAndFlush(invoice);
@@ -109,20 +112,20 @@ class InvoiceManagementApplicationServiceIT {
                     .gatewayCode("12345")
                     .invoiceId(invoice.getId())
                     .method(invoice.getPaymentSettings().getPaymentMethod())
-                    .status(PaymentStatus.PAID)
+                    .status(PaymentStatus.FAILED)
                     .build();
 
             Mockito.when(paymentGatewayService.capture(Mockito.any(PaymentRequest.class))).thenReturn(payment);
 
-             applicationService.processPayment(invoice.getId());
+            applicationService.processPayment(invoice.getId());
 
-              Invoice paidInvoice = invoiceRepository.findById(invoice.getId()).orElseThrow();
+            Invoice paidInvoice = invoiceRepository.findById(invoice.getId()).orElseThrow();
 
-              Assertions.assertThat(paidInvoice.isPaid()).isTrue();
-              Mockito.verify(paymentGatewayService).capture(Mockito.any(PaymentRequest.class));
-              Mockito.verify(invoicingService).assignPayment(Mockito.any(Invoice.class),Mockito.any(Payment.class));
+            Assertions.assertThat(paidInvoice.isCanceled()).isTrue();
+            Mockito.verify(paymentGatewayService).capture(Mockito.any(PaymentRequest.class));
+            Mockito.verify(invoicingService).assignPayment(Mockito.any(Invoice.class),Mockito.any(Payment.class));
 
-              Mockito.verify(invoiceEventListener).listen(Mockito.any(InvoicePaidEvent.class));
+            Mockito.verify(invoiceEventListener).listen(Mockito.any(InvoiceCanceledEvent.class));
       }
 
 }
