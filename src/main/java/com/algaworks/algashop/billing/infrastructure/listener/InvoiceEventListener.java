@@ -7,7 +7,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InvoiceEventListener { //PAREI 6:12
+public class InvoiceEventListener {
 
     @EventListener
     public void listen(InvoiceIssuedEvent event) {
